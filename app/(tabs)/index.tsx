@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Image, SafeAreaView, Text, View, ScrollView, TouchableOpacity } from "react-native";
 import tw from "twrnc";
@@ -67,7 +68,7 @@ export default function HomeScreen() {
       )
     );
   };
-
+  const router = useRouter();  // Hook for navigation
   const categories = ["All", "Necklaces", "Earrings", "Rings", "Bracelets", "Watches", "Chains", "Bangles"];
 
   return (
@@ -123,7 +124,7 @@ export default function HomeScreen() {
         ))}
       </ScrollView>
 
-      <View style = {tw`mr-2`}>
+      <View style = {tw`mx-1`}>
       <TouchableOpacity 
         onPress={toggleSort} 
         style={tw`border border-gray-200 h-9 rounded-lg flex-row items-center justify-center p-2`}
@@ -144,7 +145,14 @@ export default function HomeScreen() {
       <ScrollView style={tw`mx-4 mt-5`}  showsVerticalScrollIndicator={false}>
         <View style={tw`flex-row justify-between flex-wrap`}>
           {products.map((product) => (
-            <TouchableOpacity key={product.id} style={tw`bg-white p-4 rounded-lg shadow-md w-[48%] mb-4`}>
+            <TouchableOpacity
+            key={product.id}
+            style={tw`bg-white p-4 rounded-lg shadow-md w-[48%] mb-4`}
+            onPress={() => router.push({
+              pathname: '/Screens/ProductDetailScreen',
+              params: product
+            }) }
+          >
               <Image
                 source={{
                   uri: product.image,
